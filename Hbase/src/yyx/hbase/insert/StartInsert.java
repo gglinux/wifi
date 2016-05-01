@@ -1,11 +1,10 @@
 package yyx.hbase.insert;
 
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
-
-
 
 public class StartInsert {
 	
@@ -19,10 +18,10 @@ public class StartInsert {
 		ExecutorService service = Executors.newCachedThreadPool();
 		
 		for (int i = 0; i < producterNum; i++) {
-			service.submit(new Producer("producer"+i, path+"/i", storge));
+			service.submit(new Producer("[producer:"+i+"]", path+"/i", storge));
 		}
 		for (int i = 0; i < consumerNum; i++) {
-			service.submit(new Consumer("consumer"+i, hBaseTable, storge));
+			service.submit(new Consumer("[consumer:"+i+"]", hBaseTable, storge));
 		}
 	}
 }
@@ -43,7 +42,6 @@ class Storge {
 class Product 
 {
 	/*
-	public String id;
 	public String device_mac;
 	public String record_time;
 	public String user_mac;
@@ -58,5 +56,10 @@ class Product
 	public Product(String line)
 	{
 		this.data = line.split("\t");
+	}
+	
+	public String[] getData()
+	{
+		return this.data; 
 	}
 }

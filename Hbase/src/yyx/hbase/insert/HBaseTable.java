@@ -27,17 +27,32 @@ public class HBaseTable
 			tableDescriptor.addFamily(new HColumnDescriptor(familyName));
 			admin.createTable(tableDescriptor);
 			System.out.println("create table success!");
-			
 		}
+		admin.close();
 	}
 	
 	//put data
 	public void put(String row, String column, String data) throws Exception
 	{
 		HTable table = new HTable(cfg, tableName);
+
+		//column 1:device_mac+insertTime
 		Put p1 = new Put(Bytes.toBytes(row));
+		//columnFamily info
+		
+		//column 0:device_mac
+		//column 1:record_time
+		//column 2:user_mac
+		//column 3:ap_mac
+		//column 4:data_rate
+		//column 5:rssi_signal
+		//column 6:channel_id
+		//column 7:app_type
+		//column 8:app_info
+
 		p1.add(Bytes.toBytes(familyName), Bytes.toBytes(column), Bytes.toBytes(data));
 		table.put(p1);
-	    System.out.println("put '"+row+"','"+familyName+":"+column+"','"+data+"'");
+	    //System.out.println("put '"+row+"','"+familyName+":"+column+"','"+data+"'");
+		table.close();
 	}
 }
