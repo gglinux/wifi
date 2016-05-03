@@ -76,7 +76,7 @@ public class Producer implements Runnable{
 				files.addAll(getListFiles(fileOne));
 			}
 		}
-		System.out.println(nameString+" path: "+obj.toString());
+		//System.out.println(nameString+" path: "+obj.toString());
 		return files;
 	}
 }
