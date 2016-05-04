@@ -1,6 +1,7 @@
 package yyx.hbase.server;
 
 
+import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Executors;
@@ -11,18 +12,40 @@ public class StartInsert {
 	static public int consumerNum  = 5;
 	static public int producterNum = 5;
 	static public String path = "/data";
+	static public HashSet<String> searchedFile;
 	
-	public static void main(String[] args) throws Exception {
-		HBaseTable hBaseTable = new HBaseTable();
+	public static String Start(int consumer, int producter, String dataPath) {
+		
+		HBaseTable hBaseTable = null;
+		String msg = "导入成功！";
+		try {
+			hBaseTable = new HBaseTable();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			msg = e.getMessage();
+		}
 		Storge storge = new Storge();
 		ExecutorService service = Executors.newCachedThreadPool();
+		if(producter != 0) {
+			producterNum = producter;
+		}
 		
+		if (consumer != 0) {
+			consumerNum = consumer;
+		}
+		
+		if (path != null) {
+			path = dataPath;
+		}
+		searchedFile = new HashSet<String>();
 		for (int i = 0; i < producterNum; i++) {
 			service.submit(new Producer("[producer:"+i+"]", path+"/i", storge));
 		}
 		for (int i = 0; i < consumerNum; i++) {
 			service.submit(new Consumer("[consumer:"+i+"]", hBaseTable, storge));
 		}
+		return msg;
 	}
 }
 

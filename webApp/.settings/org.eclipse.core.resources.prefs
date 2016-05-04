@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
 encoding//WebRoot/index.jsp=UTF-8
+encoding//src/yyx/hbase/server/Producer.java=UTF-8
+encoding//src/yyx/hbase/server/StartInsert.java=UTF-8
+encoding//src/yyx/hbase/study/HbaseTestCase.java=UTF-8

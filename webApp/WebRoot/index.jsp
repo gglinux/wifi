@@ -1,3 +1,4 @@
+<%@page import="yyx.hbase.server.StartInsert"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
@@ -47,11 +48,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  </div>
 				</form>
 				<% 
-					String data_path = request.getParameter("path");
-					String msg = "导入错误";
-					if(data_path != null){
-						out.println("<div class='alert alert-danger' role='alert'>"+msg+"</div>");
-					}
+					String dataPath = request.getParameter("path");
+					String consumer = request.getParameter("consumer");
+					String producer = request.getParameter("producer");
+					
+					String msg = StartInsert.Start(Integer.parseInt(consumer), Integer.parseInt(producer), dataPath);
+					out.println("<div class='alert alert-danger' role='alert'>"+msg+"</div>");
 				%>
 				
 			</div>

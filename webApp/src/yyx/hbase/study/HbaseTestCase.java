@@ -50,6 +50,7 @@ public class HbaseTestCase {
                 Result result=table.get(g);
                 System.out.println("Get: "+result);
     }
+    //显示所有数据，通过HTable Scan来获取已有表的信息
     public static void scan(String tablename) throws Exception{
          HTable table = new HTable(cfg, tablename);
          Scan s = new Scan();

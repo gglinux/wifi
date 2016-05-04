@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Producer implements Runnable{
 	
+	@SuppressWarnings("unused")
 	private String nameString;
 	private String pathString;
 	private Storge storge;
@@ -25,12 +26,17 @@ public class Producer implements Runnable{
 		ArrayList<File> files = getListFiles(this.pathString);
 		for (File file : files) {
 	        BufferedReader reader = null;
+	        //已经包含此文件
+	        if(StartInsert.searchedFile.contains(file.toString())) continue;
+	        //不包含此文件
+	        StartInsert.searchedFile.add(file.toString());
 	        try {
-	            //System.out.println("以行为单位读取文件内容，一次读一整行：");
+	        	//System.out.println("以行为单位读取文件内容，一次读一整行：");
 	            reader = new BufferedReader(new FileReader(file));
 	            String tempString = null;
-	            int line = 1;
-	            // 一次读入一行，直到读入null为文件结束
+	            @SuppressWarnings("unused")
+				int line = 1;
+	            // 一次读入一行，直到读入null为文件结束
 	            while ((tempString = reader.readLine()) != null) {
 	                // 显示行号
 	            	storge.push(new Product(tempString));
@@ -52,7 +58,7 @@ public class Producer implements Runnable{
 	}
 	
 	/***
-	 * 获取指定目录下的所有的文件（不包括文件夹），采用了递归
+	 * 递归获取指定目录下的所有文件
 	 * 
 	 * @param obj
 	 * @return
