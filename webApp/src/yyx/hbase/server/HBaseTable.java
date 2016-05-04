@@ -23,6 +23,7 @@ public class HBaseTable
 			System.out.println("table has created!");
 			System.exit(0);
 		} else {
+			@SuppressWarnings("deprecation")
 			HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
 			tableDescriptor.addFamily(new HColumnDescriptor(familyName));
 			admin.createTable(tableDescriptor);

@@ -27,7 +27,7 @@ public class StartInsert {
 }
 
 class Storge {
-	BlockingQueue<Product> queue = new LinkedBlockingDeque<>();
+	BlockingQueue<Product> queue = new LinkedBlockingDeque<Product>();
 	
 	public void push(Product p) throws InterruptedException
 	{
