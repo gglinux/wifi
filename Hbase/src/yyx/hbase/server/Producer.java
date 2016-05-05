@@ -17,6 +17,7 @@ public class Producer implements Runnable{
 		this.nameString = name;
 		this.pathString = path;
 		this.storge = storge;
+		System.out.println("[info] Thread:"+name+"path:"+path+" start!");
 	}
 	@Override
 	public void run() {
@@ -25,16 +26,21 @@ public class Producer implements Runnable{
 		ArrayList<File> files = getListFiles(this.pathString);
 		for (File file : files) {
 	        BufferedReader reader = null;
+	        //已经包含此文件
+	        if(StartInsert.searchedFile.contains(file.toString())) continue;
+	        //不包含此文件
+	        StartInsert.searchedFile.add(file.toString());
 	        try {
-	            //System.out.println("以行为单位读取文件内容，一次读一整行：");
+	        	//System.out.println("以行为单位读取文件内容，一次读一整行：");
 	            reader = new BufferedReader(new FileReader(file));
 	            String tempString = null;
-	            int line = 1;
-	            // 一次读入一行，直到读入null为文件结束
+	            @SuppressWarnings("unused")
+				int line = 1;
+	            // 一次读入一行，直到读入null为文件结束
 	            while ((tempString = reader.readLine()) != null) {
 	                // 显示行号
 	            	storge.push(new Product(tempString));
-	                //System.out.println("line " + line + ": " + tempString);
+	                //System.out.println("[info:file_line] line " + line + ": " + tempString);
 	                line++;
 	            }
 	            reader.close();
@@ -52,7 +58,7 @@ public class Producer implements Runnable{
 	}
 	
 	/***
-	 * 获取指定目录下的所有的文件（不包括文件夹），采用了递归
+	 * 递归获取指定目录下的所有文件
 	 * 
 	 * @param obj
 	 * @return
@@ -67,7 +73,7 @@ public class Producer implements Runnable{
 		ArrayList<File> files = new ArrayList<File>();
 		if (directory.isFile()) {
 			files.add(directory);
-			//System.out.println(nameString + " path: "+obj.toString());
+			System.out.println("[info:filePath] "+nameString + " path: "+obj.toString());
 			return files;
 		} else if (directory.isDirectory()) {
 			File[] fileArr = directory.listFiles();

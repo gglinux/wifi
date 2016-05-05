@@ -78,12 +78,15 @@ public class HbaseTestCase {
     }
   
     public static void  main (String [] agrs) {
-            String tablename="hbase_tb";
+            String tablename="hbase_tb111";
         String columnFamily="cf";
           
             try {                     
             HbaseTestCase.creat(tablename, columnFamily);
-            HbaseTestCase.put(tablename, "row1", columnFamily, "cl1", "data");
+            for(int i=0;i<100;i++)
+            { 
+            	HbaseTestCase.put(tablename, "row"+i, columnFamily, "cl"+i, "data");
+            }
             HbaseTestCase.get(tablename, "row1");
             HbaseTestCase.scan(tablename);
  /*           if(true==HBaseTestCase.delete(tablename))

@@ -1,6 +1,7 @@
 package yyx.hbase.server;
 
 
+import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Executors;
@@ -10,24 +11,32 @@ public class StartInsert {
 	
 	static public int consumerNum  = 5;
 	static public int producterNum = 5;
-	static public String path = "/data";
+	static public String path = "/mnt/hgfs/yyx/data/wifi_ftp_backup";
+	static public HashSet<String> searchedFile;
 	
-	public static void main(String[] args) throws Exception {
-		HBaseTable hBaseTable = new HBaseTable();
+	public static void main(String[] argc) throws Exception {
+		
+		try {
+			HBaseTable.create();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Storge storge = new Storge();
 		ExecutorService service = Executors.newCachedThreadPool();
-		
+
+		searchedFile = new HashSet<String>();
 		for (int i = 0; i < producterNum; i++) {
-			service.submit(new Producer("[producer:"+i+"]", path+"/i", storge));
+			service.submit(new Producer("[producer:"+i+"]", path, storge));
 		}
 		for (int i = 0; i < consumerNum; i++) {
-			service.submit(new Consumer("[consumer:"+i+"]", hBaseTable, storge));
+			service.submit(new Consumer("[consumer:"+i+"]", storge));
 		}
 	}
 }
 
 class Storge {
-	BlockingQueue<Product> queue = new LinkedBlockingDeque<>();
+	BlockingQueue<Product> queue = new LinkedBlockingDeque<Product>();
 	
 	public void push(Product p) throws InterruptedException
 	{
