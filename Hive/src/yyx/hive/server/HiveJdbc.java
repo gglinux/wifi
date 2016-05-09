@@ -8,21 +8,32 @@ import java.sql.Statement;
 
 public class HiveJdbc {
 	
-	private String ConnectUrl = "jdbc:hive://master::";
+	private static String driverName = "org.apache.hive.jdbc.HiveDriver";
 	
-	private static Connection conn = null;
 	
 	private Connection getConnection() throws SQLException
 	{
-		HiveJdbc.conn = DriverManager.getConnection(ConnectUrl);
-		return HiveJdbc.conn;
+		try {
+			Class.forName(driverName);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "", "");
 	}
 	
 	public ResultSet executeSql(String sql) throws SQLException
 	{
-		Statement statement = getConnection().createStatement();
 		System.out.println("Running sql:"+sql);
+		Statement statement = getConnection().createStatement();
 		return statement.executeQuery(sql);
+	}
+	
+	public int executeDDL(String sql) throws SQLException
+	{
+		System.out.println("Running sql:"+sql);
+		Statement statement = getConnection().createStatement();
+		return statement.executeUpdate(sql);
 	}
 	
 	

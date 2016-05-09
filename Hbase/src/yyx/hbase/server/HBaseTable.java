@@ -10,17 +10,16 @@ import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 
 public class HBaseTable 
 {
-	private static String tableName = "wifi_record2";
-	private static String familyName = "info";
+	public static String tableName = "wifi_record2";
+	public static String familyName = "info";
 	
 	
-	static Configuration cfg = new Configuration();
+	public static Configuration cfg = new Configuration();
 	
 	// create the hbase table;
 	public static void create() throws Exception
@@ -43,7 +42,7 @@ public class HBaseTable
 	}
 	
 	//put data
-    //添加一条数据，通过HTable Put为已经存在的表来添加数据
+    //添加一条数据，通过HTable Put为已经存在的表来添加数据 litle
     public static void put(String row,String column,String data) throws Exception {
         HTable table = new HTable(cfg, tableName);
         table.setAutoFlush(false);

@@ -73,7 +73,7 @@ public class Producer implements Runnable{
 		ArrayList<File> files = new ArrayList<File>();
 		if (directory.isFile()) {
 			files.add(directory);
-			System.out.println("[info:filePath] "+nameString + " path: "+obj.toString());
+			//System.out.println("[info:filePath] "+nameString + " path: "+obj.toString());
 			return files;
 		} else if (directory.isDirectory()) {
 			File[] fileArr = directory.listFiles();
