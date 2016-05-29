@@ -18,19 +18,31 @@
 ##测试结果展示
 
 ### 命令行方式
+
+#### 参数如下
+String startTime = "'2016-04-13 10:43:36'";
+String endTime = "'2016-04-14 11:43:36'";
+String userMac = "'ff:ff:ff:ff:ff:ff'";
+String deviceMac = "'b8:27:eb:1c:c0:09'";
+		
+String time1 = "'2016-04-13 10:43:36'";
+String time2 = "'2016-04-14 11:43:36'";
+
 #### HBase创建和数据导入
-
+![Hbase_insert](https://github.com/gglinux/wifi/blob/master/test/cli/hbase_insert.png)
 #### 用户轨迹查询
-
+![track](https://github.com/gglinux/wifi/blob/master/test/cli/user_track.png)
 #### 伴随情况分析
-
+![accompany](https://github.com/gglinux/wifi/blob/master/test/cli/accompany.png)
 #### 碰撞分析
+![crash](https://github.com/gglinux/wifi/blob/master/test/cli/crash.png)
 
 ### Web方式
 #### HBase创建和数据导入
-
+![Hbase_insert](https://github.com/gglinux/wifi/blob/master/test/web/hbase_insert.png)
 #### 用户轨迹查询
-
+![track](https://github.com/gglinux/wifi/blob/master/test/web/user_track.png)
 #### 伴随情况分析
-
+![accompany](https://github.com/gglinux/wifi/blob/master/test/web/accompany.png)
 #### 碰撞分析
+![crash](https://github.com/gglinux/wifi/blob/master/test/web/crash.png)
