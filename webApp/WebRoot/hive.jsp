@@ -1,3 +1,5 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="yyx.hive.server.Wifi"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
@@ -47,17 +49,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </thead>
 	      
 	      <tbody>
-	        <tr>
-	          <th scope="row">1</th>
-	          <td>Mark</td>
-	          <td>Otto</td>
-	          <td>@mdo</td>
-	          <td>@mdo</td>
-	          <td>@mdo</td>
-	          <td>@mdo</td>
-	          <td>@mdo</td>
-	          <td>@mdo</td>
-	        </tr>
+	      
+	      
+	        <%
+				String type = request.getParameter("type");
+				
+				if(type != null) {
+					
+					if(type.compareTo("user_track")==0) {
+						ResultSet result = Wifi.userTrack("'"+request.getParameter("startTime")+"'","'"+request.getParameter("endTime")+"'", "'"+request.getParameter("userMac")+"'");						
+						while(result.next()) {
+							out.println("<tr>");
+							out.println(
+						    		  "<td>"+result.getString(1) + "</td>" + 
+						    		  "<td>"+result.getString(2) + "</td>" + 
+						    		  "<td>"+result.getString(3) + "</td>" + 
+						    		  "<td>"+result.getString(4) + "</td>" + 
+						    		  "<td>"+result.getString(5) + "</td>" + 
+						    		  "<td>"+result.getString(6) + "</td>" + 
+						    		  "<td>"+result.getString(7) + "</td>" + 
+						    		  "<td>"+result.getString(8) + "</td>" + 
+						    		  "<td>"+result.getString(9) + "</td>"
+						    		  );						
+							out.println("<tr>");
+						}
+					}
+					
+					
+					if(type.compareTo("user_accompany")==0) {
+						ArrayList<ResultSet> results = Wifi.userAccompany("'"+request.getParameter("startTime")+"'","'"+request.getParameter("endTime")+"'", "'"+request.getParameter("userMac")+"'");						
+						for(ResultSet result:results) {
+							while(result.next()) {
+								out.println("<tr>");
+								out.println(
+							    		  "<td>"+result.getString(1) + "</td>" + 
+							    		  "<td>"+result.getString(2) + "</td>" + 
+							    		  "<td>"+result.getString(3) + "</td>" + 
+							    		  "<td>"+result.getString(4) + "</td>" + 
+							    		  "<td>"+result.getString(5) + "</td>" + 
+							    		  "<td>"+result.getString(6) + "</td>" + 
+							    		  "<td>"+result.getString(7) + "</td>" + 
+							    		  "<td>"+result.getString(8) + "</td>" + 
+							    		  "<td>"+result.getString(9) + "</td>"
+							    		  );						
+								out.println("<tr>");
+							}
+						}						
+					}
+					
+					
+					if(type.compareTo("user_crash")==0) {
+						ResultSet result = Wifi.userCrash("'"+request.getParameter("startTime")+"'","'"+request.getParameter("endTime")+"'", "'"+request.getParameter("deviceMac")+"'");						
+						while(result.next()) {
+							out.println("<tr>");
+							out.println(
+						    		  "<td>"+result.getString(1) + "</td>" + 
+						    		  "<td>"+result.getString(2) + "</td>" + 
+						    		  "<td>"+result.getString(3) + "</td>" + 
+						    		  "<td>"+result.getString(4) + "</td>" + 
+						    		  "<td>"+result.getString(5) + "</td>" + 
+						    		  "<td>"+result.getString(6) + "</td>" + 
+						    		  "<td>"+result.getString(7) + "</td>" + 
+						    		  "<td>"+result.getString(8) + "</td>" + 
+						    		  "<td>"+result.getString(9) + "</td>"
+						    		  );						
+							out.println("<tr>");
+						}
+						
+					}
+					
+				} else {
+					out.println("<div class='alert alert-danger' role='alert'>"+"参数错误！！"+"</div>");
+				}
+			  %>
 	      </tbody>
 	      
 	    </table>

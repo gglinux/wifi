@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="yyx/hbase/study/HbaseTestCase.java|yyx/hbase/study/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
@@ -19,26 +19,5 @@
 			<attribute name="owner.project.facets" value="jst.web.jstl"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/hello"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-examples-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-it-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-it-0.98.18-hadoop1-tests.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-shell-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-rest-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-thrift-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-testing-util-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-server-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-server-0.98.18-hadoop1-tests.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-hadoop1-compat-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-prefix-tree-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-hadoop-compat-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-client-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-protocol-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-common-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-common-0.98.18-hadoop1-tests.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-annotations-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-resource-bundle-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hbase-checkstyle-0.98.18-hadoop1.jar"/>
-	<classpathentry kind="lib" path="E:/yyx/wifi/Hbase/lib/hadoop-core-1.2.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

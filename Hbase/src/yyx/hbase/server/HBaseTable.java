@@ -15,7 +15,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 public class HBaseTable 
 {
-	public static String tableName = "wifi_record2";
+	public static String tableName = "wifi_record5";
 	public static String familyName = "info";
 	
 	

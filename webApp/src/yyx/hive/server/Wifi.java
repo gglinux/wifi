@@ -5,50 +5,167 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Wifi extends HiveJdbc{
-	
-	private String pathString = "/data";
+public class Wifi extends HiveJdbc {
+
+	private String pathString = "/mnt/hgfs/yyx/data/test";
 	private String tableName = "wifi";
-	
-	//load data
-	public void loadData() throws SQLException
-	{
-		ArrayList<File> files = getListFiles(pathString);
+
+	public static void main(String[] args) throws SQLException {
+		String startTime = "'2016-04-13 10:43:36'";
+		String endTime = "'2016-04-14 11:43:36'";
+		String userMac = "'ff:ff:ff:ff:ff:ff'";
+		String deviceMac = "'b8:27:eb:1c:c0:09'";
+
+		String time1 = "'2016-04-13 10:43:36'";
+		String time2 = "'2016-04-14 11:43:36'";
+
+		Wifi test = new Wifi();
+		// test.createTable();
+		// test.loadData();
+		// test.testData();
+
+		// test.getUserTrack(startTime, endTime, userMac);
+		// test.getUserAccompany(userMac, time1, time2);
+		test.getUserCrash(deviceMac, startTime, endTime);
+	}
+
+	public static void load(String path) throws SQLException {
+		Wifi wifi = new Wifi();
+		wifi.loadData(path);
+	}
+
+	public static ResultSet userTrack(String startTime, String endTime,
+			String userMac) throws SQLException {
+		Wifi wifi = new Wifi();
+		return wifi.getUserTrack(startTime, endTime, userMac);
+	}
+
+	public static ArrayList<ResultSet> userAccompany(String startTime,
+			String endTime, String userMac) throws SQLException {
+		Wifi wifi = new Wifi();
+		return wifi.getUserAccompany(userMac, startTime, endTime);
+	}
+
+	public static ResultSet userCrash(String startTime, String endTime,
+			String deviceMac) throws SQLException {
+		Wifi wifi = new Wifi();
+		return wifi.getUserCrash(deviceMac, startTime, endTime);
+	}
+
+	// load data
+	public void loadData(String hivePath) throws SQLException {
+		ArrayList<File> files = getListFiles(hivePath);
+
 		for (File file : files) {
-			String sql = "load data local inpath ' " + file.toString() + "'overwrite into table"+tableName;  
-			executeSql(sql);
+			System.out.println(file.toString());
+			String sql = "load data local inpath '" + file.toString()
+					+ "'overwrite into table " + tableName;
+			executeDDL(sql);
 		}
-		
 	}
-	
-	
-	public void getUserTrack(String startTime, String endTime, String userMac) throws SQLException
-	{
-		String sqlString = "select * from "+ tableName +"where record_time between "+startTime+" and "+endTime+" and user_mac = "+userMac;
+
+	public void createTable() throws SQLException {
+		String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " ( "
+				+ "device_mac string, " + "record_time string, "
+				+ "user_mac string, " + "ap_mac string, "
+				+ "data_rate string, " + "rssi_signal string, "
+				+ "channel_id string, " + "app_type string, "
+				+ "app_info string)"
+				+ "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' "
+				+ "STORED AS TEXTFILE";
+		executeDDL(sql);
+	}
+
+	public void testData() throws SQLException {
+		String sqlString = "select * from " + tableName + " limit 100";
 		ResultSet result = executeSql(sqlString);
 		cleanData(result);
 	}
-	public void getUserAccompany(String startTime, String endTime, String userMac, String time1, String time2) throws SQLException
-	{
-		String sql = "select * from "+tableName+"where " +
-					"device_mac in " +
-					"(select * from "+tableName +"where record_time between "+startTime+" and "+endTime+" and user_mac = "+userMac+")" +
-					"and record_time between " + time1 +" and "+time2;
-		ResultSet result = executeSql(sql);
-		cleanData(result);
-	}
-	public void getUserCrash(String deviceMac, String startTime, String endTime) throws SQLException
-	{
-		String sqlString = "select * from "+ tableName +"where record_time between "+startTime+" and "+endTime+" and device_mac = "+deviceMac;
+
+	/**
+	 * 用户轨迹：根据指定时间，查询device_mac
+	 * 
+	 * @param startTime
+	 *            开始时间
+	 * @param endTime
+	 *            指定时间
+	 * @param userMac
+	 *            用户mac
+	 * @throws SQLException
+	 */
+	public ResultSet getUserTrack(String startTime, String endTime,
+			String userMac) throws SQLException {
+		String sqlString = "select * from " + tableName
+				+ " where record_time between " + startTime + " and " + endTime
+				+ " and user_mac = " + userMac;
 		ResultSet result = executeSql(sqlString);
-		cleanData(result);
+		return result;
 	}
-	
-	private void cleanData(ResultSet result) {
-		
+
+	/**
+	 * 伴随情况
+	 * 
+	 * @param userMac
+	 *            用户mac
+	 * @param time1
+	 *            伴随开始时间
+	 * @param time2
+	 *            伴随结束时间
+	 * @throws SQLException
+	 */
+	public ArrayList<ResultSet> getUserAccompany(String userMac, String time1,
+			String time2) throws SQLException {
+		String subSql = "select distinct device_mac from " + tableName
+				+ " where user_mac = " + userMac;
+		ResultSet subResult = executeSql(subSql);
+		ArrayList<ResultSet> resultSets = new ArrayList<ResultSet>();
+		while (subResult.next()) {
+			// System.out.println("!!!!!!Sub query: "+subResult.getString("device_mac"));
+			String sql = "select * from " + tableName + " where "
+					+ "device_mac = '" + subResult.getString("device_mac")
+					+ "' and record_time between " + time1 + " and " + time2;
+			resultSets.add(executeSql(sql));
+		}
+		return resultSets;
 	}
+
+	/**
+	 * 碰撞分析
+	 * 
+	 * @param deviceMac
+	 *            设备mac
+	 * @param startTime
+	 *            查询开始时间
+	 * @param endTime
+	 *            结束时间
+	 * @throws SQLException
+	 */
+	public ResultSet getUserCrash(String deviceMac, String startTime,
+			String endTime) throws SQLException {
+		String sqlString = "select * from " + tableName
+				+ " where record_time between " + startTime + " and " + endTime
+				+ " and device_mac = " + deviceMac;
+		return executeSql(sqlString);
+	}
+
+	/**
+	 * 整理数据 输出
+	 * 
+	 * @param result
+	 * @throws SQLException
+	 */
+	private void cleanData(ResultSet result) throws SQLException {
+		while (result.next()) {
+			System.out.println(String.valueOf(result.getString(1)) + "\t"
+					+ result.getString(2) + "\t" + result.getString(3) + "\t"
+					+ result.getString(4) + "\t" + result.getString(5) + "\t"
+					+ result.getString(6) + "\t" + result.getString(7) + "\t"
+					+ result.getString(8) + "\t" + result.getString(9) + "\t");
+		}
+	}
+
 	/***
-	 * 获取指定目录下的所有的文件（不包括文件夹），采用了递归
+	 * 鑾峰彇鎸囧畾鐩綍涓嬬殑鎵�鏈夌殑鏂囦欢锛堜笉鍖呮嫭鏂囦欢澶癸級锛岄噰鐢ㄤ簡閫掑綊
 	 * 
 	 * @param obj
 	 * @return
@@ -63,7 +180,7 @@ public class Wifi extends HiveJdbc{
 		ArrayList<File> files = new ArrayList<File>();
 		if (directory.isFile()) {
 			files.add(directory);
-			//System.out.println(nameString + " path: "+obj.toString());
+			// System.out.println(nameString + " path: "+obj.toString());
 			return files;
 		} else if (directory.isDirectory()) {
 			File[] fileArr = directory.listFiles();
@@ -72,7 +189,7 @@ public class Wifi extends HiveJdbc{
 				files.addAll(getListFiles(fileOne));
 			}
 		}
-		//System.out.println(nameString+" path: "+obj.toString());
+		// System.out.println(nameString+" path: "+obj.toString());
 		return files;
 	}
 }

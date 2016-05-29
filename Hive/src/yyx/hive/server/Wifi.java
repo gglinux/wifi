@@ -13,20 +13,21 @@ public class Wifi extends HiveJdbc{
 	public static void main(String[] args) throws SQLException
 	{
 		String startTime = "'2016-04-13 10:43:36'";
-		String endTime = "'2016-04-13 11:43:36'";
-		String userMac = "'80:41:4e:af:d6:4b'";
+		String endTime = "'2016-04-14 11:43:36'";
+		String userMac = "'ff:ff:ff:ff:ff:ff'";
 		String deviceMac = "'b8:27:eb:1c:c0:09'";
 		
 		String time1 = "'2016-04-13 10:43:36'";
-		String time2 = "'2016-04-13 11:43:36'";
+		String time2 = "'2016-04-14 11:43:36'";
 		
 		Wifi test = new Wifi();
-		test.createTable();
-		test.loadData();
+		//test.createTable();
+		//test.loadData();
+		//test.testData();
 		
 		test.getUserTrack(startTime, endTime, userMac);
 		//test.getUserAccompany(userMac, time1, time2);
-		test.getUserCrash(deviceMac, startTime, endTime);
+		//test.getUserCrash(deviceMac, startTime, endTime);
 	}
 	
 	//load data
@@ -53,8 +54,15 @@ public class Wifi extends HiveJdbc{
         		"channel_id string, " + 
         		"app_type string, " + 
         		"app_info string)" +  
-        		"ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' STORED AS TEXTFILE";
+        		"ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' " +
+        		"STORED AS TEXTFILE";
         executeDDL(sql);
+	}
+	public void testData() throws SQLException
+	{
+		String sqlString = "select * from "+ tableName +" limit 100";
+		ResultSet result = executeSql(sqlString);
+		cleanData(result);
 	}
 	
 	/**
@@ -80,12 +88,17 @@ public class Wifi extends HiveJdbc{
 	 */
 	public void getUserAccompany(String userMac, String time1, String time2) throws SQLException
 	{
-		String sql = "select * from "+tableName+" where " +
-					"device_mac in " +
-					" (select * from "+tableName +" where user_mac = "+userMac+")" +
-					" and record_time between " + time1 +" and "+time2;
-		ResultSet result = executeSql(sql);
-		cleanData(result);
+		String subSql = "select distinct device_mac from "+tableName +" where user_mac = "+userMac;
+		ResultSet subResult = executeSql(subSql);
+
+		while(subResult.next()) {
+			//System.out.println("!!!!!!Sub query: "+subResult.getString("device_mac"));
+			String sql = "select * from "+tableName+" where " +
+					"device_mac = '" + subResult.getString("device_mac") + 
+					"' and record_time between " + time1 +" and "+time2;
+			ResultSet result = executeSql(sql);
+			cleanData(result);
+		}
 	}
 	
 	/**
@@ -108,7 +121,17 @@ public class Wifi extends HiveJdbc{
 	 */
 	private void cleanData(ResultSet result) throws SQLException {
 		 while (result.next()) {
-		      System.out.println(String.valueOf(result.getInt(1)) + "\t" + result.getString(2));
+		      System.out.println(String.valueOf(
+		    		  result.getString(1)) + "\t" + 
+		    		  result.getString(2) + "\t" + 
+		    		  result.getString(3)+"\t"+
+		    		  result.getString(4)+"\t"+
+		    		  result.getString(5)+"\t"+
+		    		  result.getString(6)+"\t"+
+		    		  result.getString(7)+"\t"+
+		    		  result.getString(8)+"\t"+
+		    		  result.getString(9)+"\t"
+		    		  );
 		    }
 	}
 	/***
