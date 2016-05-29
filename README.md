@@ -21,11 +21,15 @@
 
 #### 参数如下
 String startTime = "'2016-04-13 10:43:36'";
+
 String endTime = "'2016-04-14 11:43:36'";
+
 String userMac = "'ff:ff:ff:ff:ff:ff'";
+
 String deviceMac = "'b8:27:eb:1c:c0:09'";
 		
 String time1 = "'2016-04-13 10:43:36'";
+
 String time2 = "'2016-04-14 11:43:36'";
 
 #### HBase创建和数据导入
