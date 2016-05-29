@@ -25,9 +25,9 @@ public class Wifi extends HiveJdbc{
 		//test.loadData();
 		//test.testData();
 		
-		test.getUserTrack(startTime, endTime, userMac);
+		//test.getUserTrack(startTime, endTime, userMac);
 		//test.getUserAccompany(userMac, time1, time2);
-		//test.getUserCrash(deviceMac, startTime, endTime);
+		test.getUserCrash(deviceMac, startTime, endTime);
 	}
 	
 	//load data

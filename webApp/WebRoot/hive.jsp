@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Hbase查询结果</div>
+  <div class="panel-heading">Hive查询结果</div>
   <div class="panel-body">
 
 	  <table class="table">

@@ -15,7 +15,7 @@ public class StartInsert {
 	
 	static public int consumerNum  = 5;
 	static public int producterNum = 5;
-	static public String path = "/mnt/hgfs/yyx/data/wifi_ftp_backup";
+	static public String path = "/mnt/hgfs/yyx/data/test";
 	
 	static public HashSet<String> searchedFile=null;
 	static public CopyOnWriteArrayList<Put> list=null;
