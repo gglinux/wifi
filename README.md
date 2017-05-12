@@ -1,4 +1,7 @@
 ## wifi
+[![Travis](https://img.shields.io/badge/author-gglinux-green.svg)](http://gglinux.com/)
+[![Travis](https://img.shields.io/badge/license-apache2-blue.svg)](https://github.com/gglinux/wifi/blob/master/LICENSE)
+
 基于wifi抓取信息的大数据查询系统，主要内容为HBase的创建与导入，用户轨迹查询，碰撞分析，以及查询数据的明细和汇总统计。
 
 ## 使用说明
