@@ -18,7 +18,7 @@
 3. 运行HBase服务端 "/mnt/hgfs/yyx/hbase-0.98.18-hadoop1/bin/start-hbase.sh"(此目录实际会有变化)
 4. 访问index.jsp，改变参数，可查询到相关结果
 
-##测试结果展示
+## 测试结果展示
 
 ### 命令行方式
 
